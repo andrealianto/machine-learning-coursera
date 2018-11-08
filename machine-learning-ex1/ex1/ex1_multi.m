@@ -89,11 +89,14 @@ alpha4 = 0.3;
 num_iters = 400;
 
 % Init Theta and Run Gradient Descent
-theta = zeros(3, 1);
-[theta, J1] = gradientDescentMulti(X, y, theta, alpha1, num_iters);
-[theta, J2] = gradientDescentMulti(X, y, theta, alpha2, num_iters);
-[theta, J3] = gradientDescentMulti(X, y, theta, alpha3, num_iters);
-[theta, J4] = gradientDescentMulti(X, y, theta, alpha4, num_iters);
+theta1 = zeros(3, 1);
+theta2 = zeros(3, 1);
+theta3 = zeros(3, 1);
+theta4 = zeros(3, 1);
+[theta1, J1] = gradientDescentMulti(X, y, theta1, alpha1, num_iters);
+[theta2, J2] = gradientDescentMulti(X, y, theta2, alpha2, num_iters);
+[theta3, J3] = gradientDescentMulti(X, y, theta3, alpha3, num_iters);
+[theta4, J4] = gradientDescentMulti(X, y, theta4, alpha4, num_iters);
 
 % Plot the convergence graph
 figure;
@@ -107,14 +110,24 @@ ylabel('Cost J');
 
 % Display gradient descent's result
 fprintf('Theta computed from gradient descent: \n');
-fprintf(' %f \n', theta);
+fprintf(' %f \n', theta4);
 fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
+X_test = [1650 3];
+
+% Normalize features
+area_norm = (X_test(1, 1) - mu(1, 1)) / sigma(1, 1);
+room_norm = (X_test(1, 2) - mu(1, 2)) / sigma(1, 2);
+X_test_norm = [area_norm room_norm];
+
+% Add intercept term to X_test_norm
+X_test_norm = [1 X_test_norm];
+
+price = X_test_norm * theta4; % You should change this
 
 
 % ============================================================
@@ -159,7 +172,10 @@ fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
-price = 0; % You should change this
+% Add intercept term to X_test
+X_test = [1 X_test];
+
+price = X_test * theta; % You should change this
 
 
 % ============================================================
