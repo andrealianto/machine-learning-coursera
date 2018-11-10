@@ -44,7 +44,7 @@ h = sigmoid(z);
 
 % Calculate cost with regularization term
 J = (-1/m) * ((y' * log(h)) + ((1-y)' * log(1-h))) + ...
-    (lambda/(2*m)) * (theta(2:n, 1)' * theta(2:n, 1));
+    (lambda/(2*m)) * sum(theta(2:n, 1).^2);
 
 % Calculate gradient
 grad = (1/m) * (X' * (h-y));
