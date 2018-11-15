@@ -87,9 +87,16 @@ end
 
 J = J * (-1/m);
 
+% Theta1 has size 25 x 401
+% Theta2 has size 10 x 26
+num_col_Theta1 = size(Theta1, 2);
+num_col_Theta2 = size(Theta2, 2);
 
+regularization_term = sum(Theta1(:, 2:num_col_Theta1)(:).^2) + ...
+                    sum(Theta2(:, 2:num_col_Theta2)(:).^2);
 
-
+% Calculate cost with regularization term
+J = J + (regularization_term * lambda / (2 * m));
 
 
 
