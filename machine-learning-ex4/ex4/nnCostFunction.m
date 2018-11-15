@@ -78,6 +78,7 @@ z3 = a2 * Theta2';
 h = sigmoid(z3);
 
 % Recode labels as vectors containing only values 0 or 1
+% Size y_matrix = 5000 x 10
 y_matrix = eye(num_labels)(y,:);
 
 % Calculate cost with regularization term
@@ -99,13 +100,33 @@ regularization_term = sum(Theta1(:, 2:num_col_Theta1)(:).^2) + ...
 J = J + (regularization_term * lambda / (2 * m));
 
 
+% ==== PART 2 =================================================================
 
+for t = 1:m
 
+    % Step 1: Forward propagation
+    a1 = X(t, :)';          % size 401 x 1
+    z2 = Theta1 * a1;       % size 25 x 1
+    a2 = [1; sigmoid(z2)];  % size 26 x 1
+    z3 = Theta2 * a2;       % size 10 x 1
+    a3 = sigmoid(z3);       % size 10 x 1
 
+    % Step 2: Compute error rate for every unit in layer 3
+    delta_3 = a3 - y_matrix(t,:)'; % size 10 x 1
 
+    % Step 3: Compute error rate for every unit in layer 2
+    delta_2 = (Theta2' * delta_3) .* [1; sigmoidGradient(z2)];
 
+    % Step 4: Accumulate gradient
+    Theta2_grad = Theta2_grad + (delta_3 * a2');
+    % Skip bias unit in delta_2
+    Theta1_grad = Theta1_grad + (delta_2(2:end) * a1');
 
+end;
 
+% Step 5: Divide accumulated gradients by 1/m
+Theta2_grad = Theta2_grad / m;
+Theta1_grad = Theta1_grad / m;
 
 
 
