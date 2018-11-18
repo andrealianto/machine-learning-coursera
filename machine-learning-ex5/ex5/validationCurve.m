@@ -17,28 +17,52 @@ error_train = zeros(length(lambda_vec), 1);
 error_val = zeros(length(lambda_vec), 1);
 
 % ====================== YOUR CODE HERE ======================
-% Instructions: Fill in this function to return training errors in 
-%               error_train and the validation errors in error_val. The 
-%               vector lambda_vec contains the different lambda parameters 
-%               to use for each calculation of the errors, i.e, 
-%               error_train(i), and error_val(i) should give 
-%               you the errors obtained after training with 
+% Instructions: Fill in this function to return training errors in
+%               error_train and the validation errors in error_val. The
+%               vector lambda_vec contains the different lambda parameters
+%               to use for each calculation of the errors, i.e,
+%               error_train(i), and error_val(i) should give
+%               you the errors obtained after training with
 %               lambda = lambda_vec(i)
 %
 % Note: You can loop over lambda_vec with the following:
 %
 %       for i = 1:length(lambda_vec)
 %           lambda = lambda_vec(i);
-%           % Compute train / val errors when training linear 
+%           % Compute train / val errors when training linear
 %           % regression with regularization parameter lambda
 %           % You should store the result in error_train(i)
 %           % and error_val(i)
 %           ....
-%           
+%
 %       end
 %
 %
 
+for i = 1:length(lambda_vec)
+
+    lambda = lambda_vec(i);
+    % Compute train / val errors when training linear
+    % regression with regularization parameter lambda
+    % You should store the result in error_train(i)
+    % and error_val(i)
+
+    theta = trainLinearReg(X, y, lambda);
+
+    % Compute error on the training set
+    size_train = size(X, 1)
+    h_train = X * theta;
+    error_train(i) = error_train(i) + (sum((h_train - y).^2) / (2 * size_train));
+
+    % Compute error on the cross validation set
+    size_val = size(Xval, 1);
+    hval = Xval * theta;
+    error_val(i) = error_val(i) + ...
+                    (sum((hval - yval).^2) / (2 * size_val));
+
+
+
+end
 
 
 
